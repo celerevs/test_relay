@@ -4,6 +4,8 @@ const mqtt = require('mqtt');
 const app = express();
 app.use(express.json());
 
+const port = process.env.PORT || 4000
+
 const mqttClient = mqtt.connect('mqtt://broker.hivemq.com:1883');
 
 mqttClient.on('connect', () => {
@@ -17,6 +19,6 @@ app.post('/webhook', (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log('Relay server running on port 3000');
 });
