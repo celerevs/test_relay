@@ -21,7 +21,7 @@ app.post('/webhook', (req, res) => {
   if(obj.event == 'qr_code.created'){
     mqttClient.publish('charger/evamp/mini/minitest04', obj.payload?.qr_code?.entity?.id);
   }
-  console.log('Webhook forwarded to MQTT:', payload);
+  console.log('Webhook forwarded to MQTT:', obj.payload);
   res.sendStatus(200);
 });
 
