@@ -6,7 +6,11 @@ app.use(express.json());
 
 const port = process.env.PORT || 4000
 
-const mqttClient = mqtt.connect('mqtt://mosquitto-render.onrender.com:443');
+const mqttClient = mqtt.connect('wss://mosquitto-render.onrender.com:443', {
+  protocol: 'wss',
+  reconnectPeriod: 1000,
+  clientId: 'webhook-relay-' + Math.random().toString(16).substr(2, 8),
+});
 
 mqttClient.on('connect', () => {
   console.log('Connected to MQTT broker');
