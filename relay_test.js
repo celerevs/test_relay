@@ -17,8 +17,10 @@ mqttClient.on('connect', () => {
 });
 
 app.post('/webhook', (req, res) => {
-  const payload = JSON.stringify(req.body);
-  mqttClient.publish('esp32/trigger/upi', payload);
+  const obj = JSON.parse(req);
+  if(obj.event() == 'qr_code.credited'){
+    mqttClient.publish('charger/evamp/mini/minitest04', obj.payload?.payment?.entity?.amount);
+  }
   console.log('Webhook forwarded to MQTT:', payload);
   res.sendStatus(200);
 });
