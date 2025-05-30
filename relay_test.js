@@ -6,7 +6,7 @@ app.use(express.json());
 
 const port = process.env.PORT || 4000
 
-const mqttClient = mqtt.connect('mqtt://broker.hivemq.com:1883');
+const mqttClient = mqtt.connect('mqtt://mosquitto-render.onrender.com:443');
 
 mqttClient.on('connect', () => {
   console.log('Connected to MQTT broker');
