@@ -7,8 +7,6 @@ app.use(express.json());
 const port = process.env.PORT || 4000
 
 const mqttClient = mqtt.connect('mqtt://broker.hivemq.com:1883', {
-  protocol: 'wss',
-  reconnectPeriod: 1000,
   clientId: 'webhook-relay-' + Math.random().toString(16).substr(2, 8),
 });
 
