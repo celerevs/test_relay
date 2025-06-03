@@ -4,8 +4,6 @@ const mqtt = require('mqtt');
 const app = express();
 app.use(express.json());
 
-var topic = 'charger/evamp/mini/';
-
 const port = process.env.PORT || 4000
 
 const mqttClient = mqtt.connect('mqtt://broker.hivemq.com:1883', {
@@ -22,7 +20,9 @@ app.post('/webhook', (req, res) => {
   data += ",";
   data += String(obj.payload?.payment?.entity?.id);
 
+  var topic = 'charger/evamp/mini/';
   topic += String(obj.payload?.qr_code?.entity?.id);
+  console.log(topic);
   if(obj.event == 'qr_code.credited'){
     mqttClient.publish(topic, data);
   }
