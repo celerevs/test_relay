@@ -58,7 +58,7 @@ app.post('/webhook', (req, res) => {
   data += ",";
   data += String(obj.payload?.payment?.entity?.id);
 
-  var topic = 'charger/evamp/mini/';
+  var topic = 'charger/evamp/mini';
   topic += String(obj.payload?.qr_code?.entity?.id);
   if(obj.event == 'qr_code.credited'){
     mqttClient.publish(topic, data);
