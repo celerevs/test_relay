@@ -121,7 +121,7 @@ mqttClient.on('message', (topic, message) => {
   console.log('Amount:', amount);         // ➤ "199"
   console.log('Payment ID:', payment_Id);
 
-  messageW.text = 'Your charging session at Mobilane station is finished. \n\nRefund of *₹ '+amount+'* has been generated and will be processed within 3 days.  \n\nThank you for trusting Mobilane, \nRegards Team EVamp ';
+  messageW.text = 'Your charging session at Mobilane station is finished. \n\nRefund of *₹ '+ (amount/100).toFixed(2) +'* has been generated and will be processed within 3 days.  \n\nThank you for trusting Mobilane, \nRegards Team EVamp ';
 
   var data = qs.stringify({
   channel: 'whatsapp',
