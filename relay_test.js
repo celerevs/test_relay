@@ -24,7 +24,7 @@ const mqttClient = mqtt.connect('mqtt://broker.hivemq.com:1883', {
 
 mqttClient.on('connect', () => {
   console.log('Connected to MQTT broker');
-  mqttClient.subscribe('refund/evamp/mini', (err) => {
+  mqttClient.subscribe('refund/evamp/mini/', (err) => {
     if (err) {
       console.error('Subscribe error:', err);
     } else {
@@ -36,7 +36,7 @@ mqttClient.on('connect', () => {
 // Replace with your actual values
 const API_KEY = 'gvuxjvr9jbuavfopzzxsazazsrdeks76';
 const SOURCE_NUMBER = '917834811114'; // Gupshup sandbox sender number
-var DESTINATION_NUMBER = '919979646220'; // Recipient number (must be opted-in)
+var DESTINATION_NUMBER = '917405822016'; // Recipient number (must be opted-in)
 const APP_NAME = 'TestUPI'; // Exact app name from Gupshup
 
 // Message content
