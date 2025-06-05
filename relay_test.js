@@ -45,6 +45,11 @@ var messageW = {
   text: 'Hello from Gupshup Sandbox API using Node.js!'
 };
 
+var messageX = {
+  type: 'text',
+  text: 'Hello from Gupshup Sandbox API using Node.js!'
+};
+
 // Form-encoded body
 
 
@@ -66,14 +71,14 @@ app.post('/webhook', (req, res) => {
   }
   console.log('Webhook forwarded to MQTT:', obj.payload?.qr_code?.entity?.id);
   
-  messageW.text = 'Hello 👋 \n\nWe have received your payment for a charging session at Mobilane station. \n\nThe transaction details are shown below. \n\n*Received amount: ₹ '+ String((obj.payload?.payment?.entity?.amount)/100) + '*\n*Sanctioned energy: '+ ((obj.payload?.payment?.entity?.amount)/1938).toFixed(2) + ' kWH* \n\nWhile your vehicle is getting charged please sit back and relax. Come back soon because, \n*Its Just FAST!*⚡';
+  messageX.text = 'Hello 👋 \n\nWe have received your payment for a charging session at Mobilane station. \n\nThe transaction details are shown below. \n\n*Received amount: ₹ '+ String((obj.payload?.payment?.entity?.amount)/100) + '*\n*Sanctioned energy: '+ ((obj.payload?.payment?.entity?.amount)/1938).toFixed(2) + ' kWH* \n\nWhile your vehicle is getting charged please sit back and relax. Come back soon because, \n*Its Just FAST!*⚡';
 
   var data = qs.stringify({
   channel: 'whatsapp',
   source: SOURCE_NUMBER,
   destination: DESTINATION_NUMBER,
   'src.name': APP_NAME,
-  message: JSON.stringify(messageW)
+  message: JSON.stringify(messageX)
 });
 
 // Axios config
