@@ -1,3 +1,6 @@
+const axios = require('axios');
+const qs = require('qs');  // To encode form data
+
 const express = require('express');
 const mqtt = require('mqtt');
 // const Razorpay = require('razorpay');
@@ -29,6 +32,25 @@ mqttClient.on('connect', () => {
   });
 });
 
+// Replace with your actual values
+const API_KEY = 'gvuxjvr9jbuavfopzzxsazazsrdeks76';
+const SOURCE_NUMBER = '917834811114'; // Gupshup sandbox sender number
+var DESTINATION_NUMBER = '919979646220'; // Recipient number (must be opted-in)
+const APP_NAME = 'TestUPI'; // Exact app name from Gupshup
+
+// Message content
+var messageW = {
+  type: 'text',
+  text: 'Hello from Gupshup Sandbox API using Node.js!'
+};
+
+// Form-encoded body
+
+
+// Send message
+
+
+
 
 app.post('/webhook', (req, res) => {
   const obj = req.body;
@@ -42,6 +64,35 @@ app.post('/webhook', (req, res) => {
     mqttClient.publish(topic, data);
   }
   console.log('Webhook forwarded to MQTT:', obj.payload?.qr_code?.entity?.id);
+  
+  messageW.text = 'Hello 👋 \n\nWe have received your payment for a charging session at Mobilane station. \n\nThe transaction details are shown below. \n\n*Received amount: ₹ '+ String((obj.payload?.payment?.entity?.amount)/100) + '*\n*Sanctioned energy: '+ ((obj.payload?.payment?.entity?.amount)/1938).toFixed(2) + ' kWH* \n\nWhile your vehicle is getting charged please sit back and relax. Come back soon because, \n*Its Just FAST!*⚡';
+
+  var data = qs.stringify({
+  channel: 'whatsapp',
+  source: SOURCE_NUMBER,
+  destination: DESTINATION_NUMBER,
+  'src.name': APP_NAME,
+  message: JSON.stringify(messageW)
+});
+
+// Axios config
+var config = {
+  method: 'post',
+  url: 'https://api.gupshup.io/sm/api/v1/msg',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'apikey': API_KEY
+  },
+  data: data
+};
+
+  axios(config)
+  .then(response => {
+    console.log('Message sent successfully:', response.data);
+  })
+  .catch(error => {
+    console.error('Failed to send message:', error.response?.data || error.message);
+  });
   res.sendStatus(200);
 });
 
@@ -69,4 +120,34 @@ mqttClient.on('message', (topic, message) => {
   const [amount, payment_Id] = message.toString().split(',');
   console.log('Amount:', amount);         // ➤ "199"
   console.log('Payment ID:', payment_Id);
+
+  messageW.text = 'Your charging session at Mobilane station is finished. \n\nRefund of *₹ '+amount+'* has been generated and will be processed within 3 days.  \n\nThank you for trusting Mobilane, \nRegards Team EVamp ';
+
+  var data = qs.stringify({
+  channel: 'whatsapp',
+  source: SOURCE_NUMBER,
+  destination: DESTINATION_NUMBER,
+  'src.name': APP_NAME,
+  message: JSON.stringify(messageW)
 });
+
+// Axios config
+var config = {
+  method: 'post',
+  url: 'https://api.gupshup.io/sm/api/v1/msg',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'apikey': API_KEY
+  },
+  data: data
+};
+
+  axios(config)
+  .then(response => {
+    console.log('Message sent successfully:', response.data);
+  })
+  .catch(error => {
+    console.error('Failed to send message:', error.response?.data || error.message);
+  });
+});
+
