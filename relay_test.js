@@ -23,7 +23,7 @@ const mqttClient = mqtt.connect('mqtt://broker.hivemq.com:1883', {
 
 mqttClient.on('connect', () => {
   console.log('Connected to MQTT broker');
-  mqttClient.subscribe('refund/evamp/mini/', (err) => {
+  mqttClient.subscribe('refund/evamp/mini', (err) => {
     if (err) {
       console.error('Subscribe error:', err);
     } else {
