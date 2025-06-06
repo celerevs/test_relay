@@ -69,7 +69,7 @@ app.post('/webhook', (req, res) => {
   if(obj.event == 'qr_code.credited'){
     mqttClient.publish(topic, data);
   }
-  console.log('Webhook forwarded to MQTT:', obj.payload?.qr_code?.entity?.id);
+  console.log('Webhook forwarded to MQTT:', String(req.body));
   
   messageX.text = 'Hello 👋 \n\nWe have received your payment for a charging session at Mobilane station. \n\nThe transaction details are shown below. \n\n*Received amount: ₹ '+ String((obj.payload?.payment?.entity?.amount)/100) + '*\n*Sanctioned energy: '+ ((obj.payload?.payment?.entity?.amount)/1938).toFixed(2) + ' kWH* \n\nWhile your vehicle is getting charged please sit back and relax. Come back soon because, \n*Its Just FAST!*⚡';
 
